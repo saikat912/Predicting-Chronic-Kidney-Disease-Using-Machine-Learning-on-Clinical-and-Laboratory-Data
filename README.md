@@ -1,81 +1,109 @@
+
 # Chronic Kidney Disease Prediction Using Machine Learning
 
-## Project Overview
+## Overview
 
-This project aims to predict the presence of Chronic Kidney Disease (CKD) in patients based on various clinical and laboratory features using machine learning techniques. Early detection of CKD can significantly improve patient outcomes by enabling timely treatment and management.
+This project focuses on predicting Chronic Kidney Disease (CKD) using clinical and laboratory data with machine learning techniques. The work combines manual exploratory analysis and an automated machine learning (AutoML) pipeline to build, evaluate, and compare multiple predictive models.
 
-The dataset contains multiple features such as age, blood pressure, specific gravity, albumin levels, sugar levels, red blood cell count, and many others collected from patients. The goal is to build a robust predictive model to classify whether a patient has CKD or not.
+## Project Files
+
+- **Untitled.ipynb**:  
+  Contains manual data exploration, preprocessing, feature engineering, and initial model building.
+- **Automation_Approach.ipynb**:  
+  Implements an automated machine learning workflow for preprocessing, model selection, evaluation, and prediction.
 
 ## Dataset
 
-- The dataset consists of 400 records with 26 columns representing patient attributes and the target classification.
-- Features include both numerical and categorical variables such as:
-  - Age, Blood Pressure (bp), Specific Gravity (sg), Albumin (al), Sugar (su)
-  - Red Blood Cell count (rbc), Pus Cell (pc), Pus Cell Clumps (pcc), Bacteria (ba)
-  - Blood Glucose Random (bgr), Blood Urea (bu), Serum Creatinine (sc), Sodium (sod), Potassium (pot)
-  - Hemoglobin (hemo), Packed Cell Volume (pcv), White Blood Cell count (wc), Red Blood Cell count (rc)
-  - Hypertension (htn), Diabetes Mellitus (dm), Coronary Artery Disease (cad), Appetite (appet), Pedal Edema (pe), Anemia (ane)
-- The target variable is `classification` with two classes: `ckd` and `notckd`.
+- **Source**: Clinical and laboratory records of 400 patients.
+- **Features**:  
+  - Demographic: Age  
+  - Clinical: Blood Pressure (`bp`), Hypertension (`htn`), Diabetes Mellitus (`dm`), Coronary Artery Disease (`cad`), Appetite (`appet`), Pedal Edema (`pe`), Anemia (`ane`)
+  - Laboratory: Specific Gravity (`sg`), Albumin (`al`), Sugar (`su`), Blood Glucose Random (`bgr`), Blood Urea (`bu`), Serum Creatinine (`sc`), Sodium (`sod`), Potassium (`pot`), Hemoglobin (`hemo`), Packed Cell Volume (`pcv`), White Blood Cell Count (`wc`), Red Blood Cell Count (`rc`), etc.
+  - Target: `classification` (`ckd` or `notckd`)
+- **Preprocessing**:  
+  - Missing value imputation (mean/mode)
+  - Categorical encoding (binary/one-hot)
+  - Feature scaling (MinMaxScaler)
+  - Feature selection
 
-## Technologies Used
+## Approach
 
-- Python 3.x
-- Libraries:
-  - pandas, numpy for data manipulation
-  - seaborn, matplotlib for data visualization
-  - scikit-learn for machine learning model building and evaluation
-  - warnings to handle warnings during execution
+### Manual Workflow (`Untitled.ipynb`)
 
-## Project Structure
+1. **Data Exploration**  
+   - Inspected data types, missing values, and distributions.
+   - Visualized feature relationships and target distribution.
 
-- `16th_Feb_25_HealthCare-Domain-Project.ipynb` - Jupyter notebook containing the complete exploratory data analysis, preprocessing, model training, and evaluation.
-- Dataset (embedded or external CSV file as applicable)
+2. **Preprocessing**  
+   - Imputed missing values.
+   - Encoded categorical features.
+   - Scaled numerical features.
 
-## Key Steps in the Project
+3. **Feature Engineering**  
+   - Selected relevant features based on domain knowledge and correlation.
 
-1. **Data Loading and Exploration**  
-   Understanding the dataset, checking for missing values, data types, and initial statistics.
+4. **Model Building**  
+   - Split data into train/test sets.
+   - Built and evaluated baseline models.
 
-2. **Data Cleaning and Preprocessing**  
-   Handling missing values, encoding categorical variables, and scaling numerical features using MinMaxScaler.
+### Automated Workflow (`Automation_Approach.ipynb`)
 
-3. **Exploratory Data Analysis (EDA)**  
-   Visualizing feature distributions and relationships using seaborn and matplotlib.
+1. **AutoML Setup**  
+   - Automated preprocessing (imputation, encoding, scaling).
+   - Stratified K-Fold cross-validation.
+   - Model comparison across 10+ algorithms.
 
-4. **Feature Selection**  
-   Identifying the most relevant features for predicting CKD.
+2. **Model Evaluation**  
+   - Compared models using metrics: Accuracy, AUC, Recall, Precision, F1, Kappa, MCC.
+   - Top models: Extra Trees, Random Forest, Gradient Boosting, XGBoost, LightGBM.
 
-5. **Model Training and Evaluation**  
-   Splitting data into training and testing sets, training machine learning models (e.g., Logistic Regression, Random Forest, etc.), and evaluating performance metrics such as accuracy, precision, recall, and F1-score.
+3. **Prediction**  
+   - Generated predictions and probability scores for new/test data.
 
-6. **Conclusion and Insights**  
-   Summarizing findings and model effectiveness.
+## Results
+
+- **Best Model**: Extra Trees Classifier
+- **Performance (10-fold CV)**:
+  - **Accuracy**: ~99.6%
+  - **AUC**: 1.00
+  - **Recall**: ~99.3%
+  - **Precision**: 100%
+  - **F1 Score**: ~99.7%
+- **Other Models**: Random Forest, Gradient Boosting, XGBoost, and LightGBM also performed exceptionally well.
 
 ## How to Run
 
-1. Clone the repository or download the notebook file.
-2. Ensure you have Python 3.x installed.
-3. Install required libraries (if not already installed):
+1. **Clone the repository** or download both notebooks and the dataset.
+2. **Install dependencies**:
    ```bash
-   pip install numpy pandas seaborn matplotlib scikit-learn
+   pip install numpy pandas seaborn matplotlib scikit-learn xgboost lightgbm
    ```
-4. Open the Jupyter notebook `16th_Feb_25_HealthCare-Domain-Project.ipynb` in Jupyter Lab or Jupyter Notebook.
-5. Run the notebook cells sequentially to reproduce the analysis and results.
+3. **Open and run the notebooks** in Jupyter Notebook or Jupyter Lab, following the cell order.
+4. **Review results**:  
+   - Manual analysis in `Untitled.ipynb`
+   - Automated model comparison in `Automation_Approach.ipynb`
+
+## Key Insights
+
+- Automated machine learning can rapidly identify high-performing models for clinical prediction tasks.
+- Feature scaling and proper imputation significantly improve model stability and performance.
+- Ensemble models (Extra Trees, Random Forest, Gradient Boosting) are especially effective for tabular clinical data.
 
 ## Future Work
 
-- Improve model accuracy by trying advanced algorithms like XGBoost or deep learning.
-- Deploy the model as a web application for real-time CKD prediction.
-- Incorporate more patient data for better generalization.
+- Deploy the best model as a web API or dashboard for clinical use.
+- Integrate additional patient data for improved generalization.
+- Explore explainability tools (e.g., SHAP, LIME) for model transparency.
 
 ## Contact
 
-For questions or suggestions, please contact:  
-[Saikat Pal]  
-[saikatpal912@gmail.com]  
-[https://www.linkedin.com/me?trk=p_mwlite_feed-secondary_nav]
+For questions, suggestions, or collaboration, please contact:  
+**[Saikat Pal]**  
+**[saikatpal912@gmail.com]**  
+**[@Saikat912]**
 
 ---
 
-If you want, I can also help you generate a shorter or more technical README version. Just let me know!
+**Note:**  
+All code and results are for educational and research purposes. For clinical deployment, further validation and regulatory compliance are required.
 
